@@ -1,0 +1,7 @@
+site_name: Anti AI Scraping
+
+plugins:
+- search
+- anti_ai_scraper:
+    robots_txt: True
+
