@@ -86,7 +86,7 @@ Suggestions welcome: If you know bot detection mechanisms, that can be used with
 
 ## Notable changes
 
-### Head
+### Version 0.1.0
 
 - Added `encode_html` option
 - Added `sitemap_xml` option

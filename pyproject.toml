@@ -1,6 +1,6 @@
 [project]
 name = "mkdocs-anti-ai-scraper-plugin"
-version = "0.0.1"
+version = "0.1.0"
 description = "Make it slightly harder for bots to steal your content"
 authors = [
     {name = "six-two",email = "git@six-two.dev"}
