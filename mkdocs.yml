@@ -5,4 +5,5 @@ plugins:
 - anti_ai_scraper:
     robots_txt: True
     sitemap_xml: True
+    encode_html: True
     debug: True

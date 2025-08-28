@@ -24,6 +24,7 @@ plugins:
 - anti_ai_scraper:
     robots_txt: True
     sitemap_xml: True
+    encode_html: True
     debug: False
 ```
 
@@ -33,6 +34,7 @@ Technique | Scraper Protection | Impact on human visitors | Enabled by default
 --- | --- | ---
 Add robots.txt | weak | none | yes
 Remove sitemap.xml | very weak | none | yes
+Encode HTML | only against simple HTML parser based scrapers | slows down page loading, may break page events | true
 
 ### Add robots.txt
 
@@ -55,6 +57,15 @@ This technique is enabled by default, and can be disabled by setting the option 
 If enabled, it removes the `sitemap.xml` and `sitemap.xml.gz` files.
 This prevents leaking the paths to pages not referenced by your navigation.
 
+### Encode HTML
+
+This technique is enabled by default, and can be disabled by setting the option `robots_txt: False` in `mkdocs.yml`.
+If enabled, it encodes (zip + ASCII85) each page's contents and will decode it in the user's browser with JavaScript.
+This obscures the page contents to simple scrapers that just download and parse your HTML.
+It will not work against any bots that use remote controlled browsers (using selenium or other tech).
+
+The decoding takes some time and will result in browser events (like `onload`) being fired before the page is decoded.
+This may break some functionality, that listens to these events and expects them to happen.
 
 ## Planned Techniques
 
@@ -77,6 +88,7 @@ Suggestions welcome: If you know bot detection mechanisms, that can be used with
 
 ### Head
 
+- Added `encode_html` option
 - Added `sitemap_xml` option
 
 ### Version 0.0.1

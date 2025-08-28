@@ -1,4 +1,7 @@
 import logging
+import subprocess
+# pip install self-unzip-html
+import self_unzip_html
 
 # Set up a logger for my code to use
 LOGGER = logging.getLogger("mkdocs.plugins.anti_ai_scraper")
@@ -17,6 +20,7 @@ from mkdocs.exceptions import PluginError
 class AntiScraperPluginConfig(Config):
     robots_txt = Type(bool, default=True)
     sitemap_xml = Type(bool, default=True)
+    encode_html = Type(bool, default=True)
     debug = Type(bool, default=False)
 
 
@@ -33,16 +37,20 @@ class AntiScraperPlugin(BasePlugin[AntiScraperPluginConfig]):
         if self.config.debug:
             LOGGER.info(f"[anti-ai-scraper] {message}")
 
-    # @event_priority(50)
-    # Earlier than most other plugins to update the tags properly. Did not work
+    # @event_priority(-90)
+    # Later than most other plugins to update the tags properly. Did not work
     # SEE https://www.mkdocs.org/dev-guide/plugins/#event-priorities
-    def on_page_markdown(self, markdown: str, page: Page, config: MkDocsConfig, files: Files) -> str:
+    def on_post_page(self, html: str, page: Page, config: MkDocsConfig) -> str:
         """
-        The page_markdown event is called after the page's markdown is loaded from file and can be used to alter the Markdown source text. The meta- data has been stripped off and is available as page.meta at this point.
-        See: https://www.mkdocs.org/dev-guide/plugins/#on_page_markdown
+        The post_page event is called after the template is rendered, but before it is written to disc and can be used to alter the output of the page. If an empty string is returned, the page is skipped and nothing is written to disc.
+        See: https://www.mkdocs.org/dev-guide/plugins/#on_post_page
         """
-        
-        return markdown
+        try:
+            # @TODO: expose this in self-unzip-html library to not have to call a separate process
+            html = subprocess.check_output(["self-unzip-html", "-c", "gzip", "-e", "ascii85", "--replace", "-"], stderr=subprocess.DEVNULL, input=html.encode()).decode()
+        except Exception as ex:
+            logging.warning(f"Failed to call self-unzip-html: {ex}")
+        return html
     
     def on_post_build(self, config: MkDocsConfig) -> None:
         """

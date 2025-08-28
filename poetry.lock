@@ -376,6 +376,18 @@ files = [
 pyyaml = "*"
 
 [[package]]
+name = "self-unzip-html"
+version = "0.2.1"
+description = "Create self-extracting and/or password protected HTML pages with arbitrary contents"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "self_unzip_html-0.2.1-py3-none-any.whl", hash = "sha256:157f47e6b37b5c07754dfd481b90d5dddb12f9fca79794ef78b7078e18a7acdb"},
+    {file = "self_unzip_html-0.2.1.tar.gz", hash = "sha256:4bcdee59b37d38dbc1bead451508fdea7d821f50d60db5cf44ac2cc77503ab27"},
+]
+
+[[package]]
 name = "six"
 version = "1.17.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -454,4 +466,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9"
-content-hash = "7eab4b47965e842fba70c1de0a3adda1f726601b89862339b81f128a8ac38196"
+content-hash = "265e072531838a7879763d75da42fafe88fc9db6fcf1f25e2edcddbe5e88506e"
