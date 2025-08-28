@@ -16,6 +16,8 @@ from mkdocs.exceptions import PluginError
 
 class AntiScraperPluginConfig(Config):
     robots_txt = Type(bool, default=True)
+    sitemap_xml = Type(bool, default=True)
+    debug = Type(bool, default=False)
 
 
 class AntiScraperPlugin(BasePlugin[AntiScraperPluginConfig]):
@@ -26,6 +28,10 @@ class AntiScraperPlugin(BasePlugin[AntiScraperPluginConfig]):
         """
         
         return config
+    
+    def debug(self, message: str) -> None:
+        if self.config.debug:
+            LOGGER.info(f"[anti-ai-scraper] {message}")
 
     # @event_priority(50)
     # Earlier than most other plugins to update the tags properly. Did not work
@@ -37,7 +43,7 @@ class AntiScraperPlugin(BasePlugin[AntiScraperPluginConfig]):
         """
         
         return markdown
-
+    
     def on_post_build(self, config: MkDocsConfig) -> None:
         """
         Add a robots.txt if the user wants it
@@ -47,4 +53,16 @@ class AntiScraperPlugin(BasePlugin[AntiScraperPluginConfig]):
             if not os.path.exists(robots_path):
                 with open(robots_path, "w") as f:
                     f.write("User-agent: *\nDisallow: /\n")
+                self.debug(f"Created {robots_path}")
+            else:
+                self.debug(f"File {robots_path} already exists, skipped creating it")
+        
+        if self.config.sitemap_xml:
+            for file_name in ["sitemap.xml", "sitemap.xml.gz"]:
+                file_path = os.path.join(config.site_dir, file_name)
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    self.debug(f"Removed {file_path}")
+                else:
+                    self.debug(f"Skipped removing {file_path}, since it does not exist")
 

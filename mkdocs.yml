@@ -4,4 +4,5 @@ plugins:
 - search
 - anti_ai_scraper:
     robots_txt: True
-
+    sitemap_xml: True
+    debug: True
