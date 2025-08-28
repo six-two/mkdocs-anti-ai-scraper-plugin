@@ -31,7 +31,7 @@ plugins:
 ## Implemented Techniques
 
 Technique | Scraper Protection | Impact on human visitors | Enabled by default
---- | --- | ---
+--- | --- | --- | ---
 Add robots.txt | weak | none | yes
 Remove sitemap.xml | very weak | none | yes
 Encode HTML | only against simple HTML parser based scrapers | slows down page loading, may break page events | true
