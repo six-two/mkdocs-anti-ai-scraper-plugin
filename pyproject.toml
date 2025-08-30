@@ -10,7 +10,8 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
     "mkdocs (>=1.5.0)",
-    "self-unzip-html (>=0.2.1,<0.3.0)"
+    "self-unzip-html @ git+https://github.com/six-two/self-unzip.html",
+    "pycryptodomex (>=3.23.0,<4.0.0)"
 ]
 
 
